@@ -1,5 +1,9 @@
 <template>
-  <div class="text-3xl font-bold underline">123</div>
+  <router-view v-slot="{ Component }">
+    <transition name="fade">
+      <component :is="Component" />
+    </transition>
+  </router-view>
 </template>
 
 <script>
@@ -8,4 +12,14 @@ export default {
 }
 </script>
 
-<style></style>
+<style scoped lang="scss">
+.fade-enter-to,
+.fade-leave-to {
+  opacity: 0;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: all 2s;
+}
+</style>
