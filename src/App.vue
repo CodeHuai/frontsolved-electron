@@ -1,11 +1,11 @@
 <template>
-  <div>123</div>
+  <div class="text-3xl font-bold underline">123</div>
 </template>
 
 <script>
 export default {
-  name: "App",
-};
+  name: 'App'
+}
 </script>
 
 <style></style>
