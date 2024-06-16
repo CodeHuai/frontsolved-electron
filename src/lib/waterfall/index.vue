@@ -8,7 +8,7 @@
     }"
   >
     <template
-      v-for="(item, index) in props.data"
+      v-for="(item, index) in pageData"
       :key="props.domKey ? item[domKey] : index"
     >
       <div
@@ -27,7 +27,7 @@
 </template>
 
 <script setup>
-import { defineProps, nextTick, onMounted, ref, watch } from 'vue'
+import { computed, defineProps, nextTick, onMounted, ref, watch } from 'vue'
 import { getImgElements, getAllImg, onComplateImgs } from '@/utils/index'
 
 const props = defineProps({
@@ -55,6 +55,8 @@ const props = defineProps({
     type: Number
   }
 })
+
+const pageData = computed(() => props.data)
 
 // 外部容器高度，始终等于最长一列的高度
 const outContainerHeight = ref(0)
@@ -118,7 +120,7 @@ const setElLeft = () => {
 const setElTop = () => {
   const minIndex = getMinHeightColumn(itemColumnHeightList.value)
   const minHeight = itemColumnHeightList.value[minIndex]
-  return minHeight + props.rowSpacing
+  return minHeight
 }
 
 /**
@@ -128,14 +130,19 @@ const increasingHeight = (index) => {
   // 最小高度所在的列
   const minHeightColumn = getMinHeightColumn(itemColumnHeightList.value)
   // 该列高度自增
-  itemColumnHeightList.value[minHeightColumn] +=
-    itemHeightList.value[index] + props.rowSpacing
+  itemColumnHeightList.value[minHeightColumn] =
+    itemColumnHeightList.value[minHeightColumn] +
+    itemHeightList.value[index] +
+    props.rowSpacing
 }
 
 // 渲染位置
 const useItemLocation = () => {
-  // 只让没有  _style 属性的 进行处理
-  const arr = props.data.filter((el) => !Reflect.has(el, '_style'))
+  // 找到 没有 _style 属性的 第一个下标
+  let findIndex = pageData.value.findIndex((el) => !Reflect.has(el, '_style'))
+  let startIndex = findIndex <= 0 ? 0 : findIndex
+
+  const arr = pageData.value.filter((el) => !Reflect.has(el, '_style'))
 
   for (let index = 0; index < arr.length; index++) {
     const el = arr[index]
@@ -147,7 +154,9 @@ const useItemLocation = () => {
     el._style._top = setElTop()
 
     // 更新 itemColumnHeightList 值
-    increasingHeight(index)
+    increasingHeight(startIndex % props.column)
+
+    startIndex++
   }
 
   // 更新指定容器高度
@@ -171,29 +180,29 @@ const waitImgComplate = () => {
         itemHeightList.value.push(el.offsetHeight || 0) // 存入每一个 img 的高度值
       }
 
-      console.log(itemHeightList.value)
       // 渲染位置
       useItemLocation()
     })
     .catch((error) => {
-      console.log(error)
+      console.log(error, '加载错误')
     })
 }
 
 onMounted(() => {
-  // 获取外部容器的宽度
+  useColumnHeight()
+  // 根据传入的参数计算每一个图片的宽度
   handleOutContainerWidth()
 })
 
 // 监听数据源
 watch(
-  () => props.data,
-  (newVal) => {
-    const resetColumnHeight = newVal.every((item) => !item._style)
-    if (resetColumnHeight) {
-      // 构建高度记录容器，并且初始化
-      useColumnHeight()
-    }
+  pageData,
+  () => {
+    // const resetColumnHeight = newVal.every((item) => !item._style)
+    // if (resetColumnHeight) {
+    //   // 构建高度记录容器，并且初始化
+    //   useColumnHeight()
+    // }
 
     nextTick(() => {
       // dom更新完成后，计算每一个图片的高度
@@ -201,7 +210,6 @@ watch(
     })
   },
   {
-    immediate: true,
     deep: true
   }
 )

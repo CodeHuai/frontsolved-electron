@@ -27,6 +27,7 @@ export const onComplateImgs = (imgs) => {
   // 循环构建 promiseAll
   for (let index = 0; index < imgs.length; index++) {
     const img = imgs[index]
+    // eslint-disable-next-line no-unused-vars
     promiseAll[index] = new Promise((resolve, reject) => {
       const imageObj = new Image()
       imageObj.src = img
@@ -37,9 +38,8 @@ export const onComplateImgs = (imgs) => {
           index
         })
       }
-      // 在图片加载出现错误的时候
-      imageObj.onerror = () => {
-        reject({
+      imageObj.onerror = function () {
+        resolve({
           img,
           index
         })
