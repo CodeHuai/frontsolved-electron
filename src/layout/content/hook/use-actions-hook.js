@@ -1,4 +1,5 @@
-/* eslint-disable no-debugger */
+import { debounce } from '@/utils/index'
+
 export const useActionsHook = ({ params, fetWaterFallData, isShowMore }) => {
   // 滚动方法
   const scrollEvent = async (e) => {
@@ -21,7 +22,11 @@ export const useActionsHook = ({ params, fetWaterFallData, isShowMore }) => {
       await fetWaterFallData(params)
     }
   }
+
+  const betterScroller = debounce(scrollEvent)
+
   return {
-    scrollEvent
+    scrollEvent,
+    betterScroller
   }
 }

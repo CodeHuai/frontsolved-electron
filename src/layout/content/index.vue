@@ -1,6 +1,6 @@
 <template>
   <div
-    @scroll="scrollEvent($event)"
+    @scroll="betterScroller($event)"
     class="h-[calc(100%_-_50px)] px-[20px] py-0 overflow-hidden overflow-y-auto"
   >
     <infine v-model="isShowMore">
@@ -23,7 +23,7 @@ import { useModelHook } from './hook/use-model-hook'
 import waterfallItem from '@/components/waterfall-item/index.vue'
 
 const { isShowMore, pexelsList, params, fetWaterFallData } = useModelHook()
-const { scrollEvent } = useActionsHook({
+const { betterScroller } = useActionsHook({
   params,
   pexelsList,
   fetWaterFallData,
