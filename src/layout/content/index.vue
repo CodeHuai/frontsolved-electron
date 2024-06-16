@@ -26,7 +26,8 @@ const { isShowMore, pexelsList, params, fetWaterFallData } = useModelHook()
 const { scrollEvent } = useActionsHook({
   params,
   pexelsList,
-  fetWaterFallData
+  fetWaterFallData,
+  isShowMore
 })
 </script>
 

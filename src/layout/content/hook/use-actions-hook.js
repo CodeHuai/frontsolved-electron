@@ -1,7 +1,10 @@
 /* eslint-disable no-debugger */
-export const useActionsHook = ({ params, fetWaterFallData }) => {
+export const useActionsHook = ({ params, fetWaterFallData, isShowMore }) => {
   // 滚动方法
   const scrollEvent = async (e) => {
+    if (isShowMore.value) {
+      return
+    }
     const target = e.target
 
     // 滚动条到最上方的高度，即拉到当前页面时上面已经隐藏掉的高度
