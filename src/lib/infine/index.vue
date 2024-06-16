@@ -1,6 +1,6 @@
 /** * 列表懒加载容器 */
 <template>
-  <div class="w-full h-full">
+  <div class="w-full">
     <slot></slot>
     <div
       v-if="isShowMore"

@@ -2,7 +2,7 @@ import { ref, onMounted } from 'vue'
 import { getPexelsList } from '@/api/index'
 
 export const useModelHook = () => {
-  const loadingFlag = ref(false)
+  const isShowMore = ref(false)
 
   const params = {
     page: 1,
@@ -16,14 +16,13 @@ export const useModelHook = () => {
   const fetWaterFallData = async () => {
     if (params.page === 1) {
       pexelsList.value = []
-      loadingFlag.value = false
+      isShowMore.value = false
     }
     try {
       const { total, list } = await getPexelsList(params)
-      console.log(list)
       totalNum.value = Number(total)
       if (pexelsList.value.length >= totalNum.value) {
-        loadingFlag.value = true
+        isShowMore.value = true
         return
       }
       pexelsList.value = [...pexelsList.value, ...list]
@@ -37,7 +36,7 @@ export const useModelHook = () => {
   })
 
   return {
-    loadingFlag,
+    isShowMore,
     params,
     pexelsList,
     fetWaterFallData

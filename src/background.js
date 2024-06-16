@@ -14,7 +14,7 @@ async function createWindow() {
   // Menu.setApplicationMenu(null); // null值取消顶部菜单栏
   // Create the browser window.
   const win = new BrowserWindow({
-    width: 800,
+    width: 1280,
     height: 600,
     webPreferences: {
       // Use pluginOptions.nodeIntegration, leave this alone

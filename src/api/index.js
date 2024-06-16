@@ -1,4 +1,4 @@
-import network from '@/utils/request'
+import { network } from '@/utils/index'
 
 /**
  * 获取图片数据列表
