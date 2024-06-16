@@ -139,7 +139,7 @@ const useItemLocation = () => {
   for (let index = 0; index < props.data.length; index++) {
     const el = props.data[index]
     if (Reflect.has(el, '_style')) {
-      return
+      continue
     }
 
     el._style = {}
