@@ -5,5 +5,7 @@ import router from './router'
 
 // 引入 tailwindcss
 import './styles/indes.scss'
+// 引入 lib
+import lib from './lib/index'
 
-createApp(App).use(store).use(router).mount('#app')
+createApp(App).use(lib).use(store).use(router).mount('#app')
