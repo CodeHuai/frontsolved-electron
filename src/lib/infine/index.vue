@@ -1,8 +1,11 @@
 /** * 列表懒加载容器 */
 <template>
-  <div class="w-full">
+  <div class="w-full h-full">
     <slot></slot>
-    <div v-if="isShowMore" class="text-center text-base text-zinc-400">
+    <div
+      v-if="isShowMore"
+      class="w-full items-center text-center text-base text-zinc-400"
+    >
       已经没有更多数据了！
     </div>
   </div>
